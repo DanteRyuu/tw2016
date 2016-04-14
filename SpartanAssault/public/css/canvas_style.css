@@ -31,13 +31,13 @@
 	}
 	
 	.addBackgroundLeft {
-		background-image:url(../assets/yellow_frame_left.png);
+		background-image:url(../assets/main/yellow_frame_left.png);
 		background-repeat:no-repeat;
 		background-position: bottom center;
 	}
 	
 	.addBackgroundRight {
-		background-image:url(../assets/yellow_frame_right.png);
+		background-image:url(../assets/main/yellow_frame_right.png);
 		background-repeat:no-repeat;
 		background-position: bottom center;
 	}
@@ -61,8 +61,8 @@
 		height:528px;
 	}
 	
-	#overview, #work, #colosseum, #training,
-	#weaponsmith, #armoursmith, #goodsMerchant,
+	#overview, #objectives, #guild, #work, #colosseum, #training, #top,
+	#weaponsmith, #armoursmith, #goodsMerchant, #crafting, #upgrade, #market, #canyon, #forest, #temple,
 	#left_button, #right_button, #aux .buttons{
 		position:relative;
 		width: 100px;
@@ -86,6 +86,14 @@
 		top:0px;
 	}
 	
+	#objectives{
+		top:8px;
+	}
+	
+	#guild{
+		top:16px;
+	}
+	
 	#work{
 		top:24px;
 	}
@@ -96,6 +104,10 @@
 	
 	#training{
 		top:40px;
+	}
+	
+	#top{
+		top:48px;
 	}
 	
 	#left_button{
@@ -121,5 +133,29 @@
 	}
 	
 	#goodsMerchant{
+		top:0px;
+	}
+	
+	#crafting{
+		top:8px;
+	}
+	
+	#upgrade{
+		top:16px;
+	}
+	
+	#market{
+		top:24px;
+	}
+	
+	#canyon{
+		top:-16px;
+	}
+	
+	#forest{
+		top:-8px;
+	}
+	
+	#temple{
 		top:0px;
 	}
