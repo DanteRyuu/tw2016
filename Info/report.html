@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+	<head>
+		<meta charset="utf-8"></meta>
+		<title>Spartan assault</title>
+	</head>
+	
+	<body>
+		<header>
+      <p class="title"><h1><strong>Spartan Assault</h1></strong></p>
+		</header>
+		<article id="what" typeof="schema:ScholarlyArticle" resource="#">
+      
+   
+      <section id="Arhitectura" typeof="sa:Arhitectura">
+        <h2>Arhitectura</h2>
+        <p>
+		  In cadrul acestui proiect vom utiliza HTML5, la care se adauga CSS pentru design-ul paginilor. 
+		  Vom avea un server in Node js care va pastra tot timpul o conexiune cu baza de date mySql, 
+		  gazduita de www.freemysqlhosting.net. De asemenea, vom incerca sa urcam server-ul in Cloud cand
+		  vom ajunge la o versiune acceptabila a aplicatiei.
+        </p>
+		<p>
+			Clientul reprezinta browser-ul care va randa HTML-urile si CSS-urile din folderul public. 
+		Pentru acesta ne-am gandit sa utilizam Ajax (prin XMLHTTPRequest-uri), ceea ce va ajuta la realizarea continutului dinamic
+		(e.g: update-ul in real-time al cresterii abilitatilor, schimbarea echipamentului, vanzarea acestuia).
+		</p>
+		
+		<p>
+		Ca stil arhitectural, vom folosi paradigma REST, deoarece aplicatia va  contine numeroase componente,
+		ceea ce necesita scalabilitate. Asadar, vom folosi modelul de tip client-server (toate datele fiind 
+		pastrate in baza de date la care este conectat serverul), clientul va fi retine unele raspunsuri de la 
+		server in cache (cum ar fi informatii despre profil, battle history, clasamentele), eventual vom avea un
+		punct intermediar intre server si client, care poate usura transferul de date dintre acestea, in care se
+		incadreaza si parti de cod JavaScript.
+		</p>
+		
+		<p>
+		Vom utiliza un API pentru trimiterea de e-mail-uri utilizatorilor (pentru inregistrare, confirmarea schimbarii 
+		adresei de e-mail, a parolei sau stergerea contului). Deocamdata, avem mai multe variante: MailGun, PostMark, PostageApp.
+		Vom avea nevoie si de un API pentru lucrul cu timers/alarms, deoarece durata muncilor si a pauzelor dintre lupte vor fi cronometrate.
+		In acest scop vom utiliza Web API/Alarm API. Vom mai utiliza un API pentru managementul currency-ului din joc (gold/coins), LegendCoins API.
+		Vom incerca sa folosim si un API pentru postarea de statusuri pe retele sociale, referitoare la victoriile obtinute.
+		</p>
+		
+		<p>
+		Pentru simplificarea codului si modularizarea aplicatiei, vom folosi modulul express din node js.
+		</p>
+
+      </section>
+      <section id="motivation" typeof="sa:MaterialsAndMethods">
+        <h2>Design</h2>
+        <aside typeof="schema:WPSideBar">
+          <p>
+           <strong>Pas 1</strong> . In primul rand, utilizatorul va trebui sa acceseze pagina principala. In cadrul acesteia se va gasi 
+			un formular de inscriere, respectiv o zona de Login. In partea de sus a panoului de inregistrare se va afla 
+			logo-ul jocului si in interiorul sau utilizatorul va fi nevoit sa completeze campurile username, e-mail si 
+			password ( va fi si un check button pentru a accepta conditiile de utilizare). Pentru a continua cu datele 
+			inscrise, user-ul va trebui sa apese butonul Register.
+			Prin apasarea butonului de Login, va aparea un pop-up in interiorul caruia utilizatorul trebuie sa isi introduca username-ul 
+			si parola, avand posibilitatea de recuperare a parolei, in cazul in care acest lucru este dorit de catre utilizator. Prin apasarea 
+			butonului Login, utilizatorul va primi ori un mesaj de atentionare, in cazul in care datele sunt gresite, ori va fi trimis catre
+			profilul sau.
+			Vom mai avea o bara de meniu in footer-ul paginii, cu butoane precum Privacy, Help, Terms and Conditions.
+
+          </p>
+        </aside>
+        <p>
+         <strong> Pas 2</strong>. Utilizatorul a accesat butonul Register cu succes.In continuare, el va trebui sa isi confirme adresa de e-mail 
+		  inainte de a putea avansa cu initierea profilului in joc. Acest lucru se va realiza prin introducerea unui cod personalizat primit pe e-mail.
+		Dupa confirmarea cu succes a adresei de e-mail, user-ul se va putea loga. In header-ul paginii va aparea un banner care se va
+		regasi pe toate paginile viitoare. Acesta va contine butoanele Account, Help si Logout. Account va directiona user-ul la pagina
+		contului sau, unde acesta va putea schimba date persoanale, cum ar fi adresa de e-mail si parola, dar va putea initia si stegerea
+		contului. Help va redirectiona user-ul la o pagina de ajutor, in care va gasi anumite informatii ce-l vor ajuta la inceputul jocului.
+		Logout va deconecta user-ul.
+		In canvas va aparea o posibilitate de alegere a genului caracterului. Dupa ce utilizatorul a ales intre optiunile masculin si feminin,
+		acesta va trebui sa apese butonul Next pentru a merge mai departe.
+		Urmatoarea si ultima optiune va fi cea de alegere a originii sale. User-ul va putea alege pentru caracterul sau un punct cardinal, fiecare
+		avand anumite avantaje (informatiile pentru fiecare punct cardinal vor fi afisate intr-un div ce va aparea la apasarea butonului respectiv).
+		Dupa ce si-a selectat optiunea, va trebui sa apese butonul Confirm, pentru a-si finaliza profilul. 
+        </p>
+        <p>
+		<strong>Pas 3.</strong> Incepand cu aceasta pagina, vom avea un design fix, care se va pastra pe tot parcursul jocului. Singurul lucru care se va 
+		schimba va fi canvas-ul. In acest sens, vom avea o bara de meniuri in partea din stanga a paginii. Aceasta bara de meniuri verticala
+		va fi impartita in butoane, a caror functionalitate se va reflecta in canvasul pozitionat in dreapta sa.
+        </p>
+     
+        <p>         
+		Bara de meniuri superioara: ( va fi plasata intre banner si canvas)
+		<ul>
+		<li>	Butonul de Notificari</li>
+		Se vor primi notificari referitoare la diverse adaugari pe site.
+		<li>	Butonul de Mesaje</li>
+		Se primesc mesaje private.
+		<li>	Butonul de BattleHistory</li>
+		Se afiseaza istoricul ultimelor lupte.
+		<li>	Butonul de Level</li>
+		Se afiseaza nivelul user-ului.
+		<li>	Zona de afisare a hp-ului si a experientei.</li>
+		<li>	Butonul de numar in top</li>
+		Se afiseaza locul in top al user-ului.
+		<li>	Zona de afisare a gold-ului si score-ului detinut.</li>
+		</ul>     
+      </section>
+	  
+	  
+      <section id="definition" typeof="sa:Results">
+        <h2>Bara de meniuri din stanga:</h2>
+        <p>
+		<strong>1.	Overview.</strong>
+        </p>
+        <p>
+        Se va afisa profilul user-ului, care va contine username-ul, titlul detinut, imaginea corespunzatoare nivelului la 
+		care se afla, hp-ul, experienta, dar si nivelul caracteristicilor/abilitatilor detinute. De asemenea, se vor putea 
+		vedea item-urile echipate si inventoryul.
+		Statistics. In acest tab se vor afla informatii despre Colosseum (lupte, la care se vor pot vedea si rezultatele - 
+		numarul de victorii, de infrangeri si de egaluri; utilizatorul mai poate vedea gold-ul castigat, gold-ul pierdut si 
+		punctele obtinute ( 2/W, -1/L)), misiuni (numarul de misiuni terminate) , precum si valoarea itemelor ( cele echipate 
+		si cele din inventar).
+        </p>
+		
+		  <p>
+		<strong>2.	Objectives*</strong>
+        </p>
+        <p>
+        	Aici gasim misiuni la intamplare pe care le poate face user-ul, indeplinirea acestora aducand gold, dar si misiunile principale care 
+		aduc gold la atingerea unui anumit nivel, la obtinerea unui anumit numar de puncte pe o abilitate, la obtinerea unui anumit numar de 
+		item-uri.
+        </p>
+		  <p>
+		<strong>3.	Guild*</strong>
+        </p>
+        <p>
+       Utilizatorul isi poate alege o breasla. Daca acesta nu va fi acceptat de owner, va primi un mesaj care sa ii anunte acest lucru. Altfel, 
+		utilizatorul va putea accesa urmatoarele features:
+		Avem un tab numit “Overview” in care se gasesc  informatii despre Guild/Breasla, precum: Owner, No Members, Description si Rank (pozitia in 
+		clasament). In partea de jos va exista un buton Leave Guild, prin care utilizatorul isi poate exercita dreptul de a pleca din acea breasla 
+oricand 
+		doreste.
+		Vom mai avea un tab numit Map, care va fi reprezentat printr-o harta, de pe care se vor putea accesa diverse privilegii. In primul rand, va 
+fi un 
+		spatiu de chat pentru membrii breslei. Pe mapa vor aparea mai multe cladiri, fiecare avand propriul rol. Cea mai importanta va fi aceea in 
+care 
+		user-ul isi va putea depozita diverse item-uri pe o perioada de timp limitata. De asemenea, isi va putea depune si propriul gold, in limita 
+maxima 
+		admisa, Avantajul ar fi acela ca utilizatorul, in cazul unor esecuri, nu isi va pierde o parte mare din gold sau din item-uri, fiindca ele 
+sunt 
+		depozitate. Totusi, pentru a accentua ideea de management a resurselor, user-ul va trebui sa ofere “tribut” o anumita parte din gold-ul 
+propriu.
+
+        </p>
+		  <p>
+		<strong>4.	Work</strong>
+        </p>
+        <p>
+       Vor exista mai multe job-uri, schimbandu-se odata cu nivelul jucatorului. Fiecare dintre ele va avea o descriere, compusa din numele si suma 
+primita la realizarea acesteia, dar si numarul de ore maxim pe care il poate petrece user-ul facand jobul curent (si eventualele bunuri pe 
+care le poate primi).
+        </p>
+		  <p>
+		<strong>5.	Colosseum</strong>
+        </p>
+        <p>
+        Aici playerii vor putea lupta in arena 1 vs 1. User-ul va putea ataca direct primii 4 playeri aflati in fata sa in clasament, dar si orice 
+alt user, cautand cu ajutorul unui search numele acestuia ( lucru care il va costa 10 gold).
+	O victorie in arena ii va aduce castigatorului 10% din goldul inamicului, in timp ce infrantul va pierde cei 10% din gold, dar si o parte din 
+fiecare caracteristica ( un random de la 0 la 5 din fiecare caracteristica)
+        </p>
+		</section>
+		
+		
+        <section id="file-headers">
+          <h3>Formule</h3>
+		  <ul>
+			<li>CharacterArmour=SUM(ItemArmour).</li>
+			<li>CharacterDamage=SUM(ItemDamage)+1/10*Strength.</li>
+			<li>Critical=1/10*Damage(if(ok)).</li>
+			<li>DamageTaken=CharacterDamage[Enemy]-Stamina*rand% ( rand IN (1,5)).</li>
+			<li>Tiredness=DamageTaken*10/100.</li>
+			<li>DamageDone=CharacterDamage+Critical-Tiredness.</li>
+			<li>-1%*CharacterArmour.</li>
+		  </ul>
+		  
+          <p>
+           Lupta propriu-zisa in Arena: jucatorul cu agilitatea mai mare va fi cel care va da prima lovitura. Fiecare spartan va 
+		   da cate 5 lovituri sau mai putine, in cazul in care unul dintre ei castiga deja ( spartanul care se recunoaste invins 
+		   este cel care are hp-ul sub 5%). Atunci cand un user ataca, ii creste oboseala ( Tiredness-ul) celui de-al doilea ( afectandu-i,
+		   astfel, urmatorul atac). Daca niciun jucator nu pierde pana in ultima runda, atunci se vor aplica urmatoarele scenarii:
+			<ul>
+		   <li>daca dupa ultima runda al doilea spartan are sub 5% hp, atunci este declarat invins  </li>
+		   <li>daca dupa ultima runda niciun spartan nu are sub 5% hp, va fi declarat castigator spartanul care a dat cel mai mult damage.</li>
+			<ul>
+			</p>
+            
+			<p><strong>6.	Training</strong></p>
+			<p>Aici se va putea upgrada fiecare caracteristica, platind suma ceruta ( aceasta va fi calculata in functie de 
+			punctele deja detinute pe acea caracteristica).
+			</p>
+
+		<p><strong>7.	Top*</strong></p>
+		<p>Primul tab: Se va putea accesa un clasament individual, in functie de level-urile playerilor.
+		Al doilea tab: Se va putea accesa un clasament individual, in functie de scorurile din arena.
+		Al treilea tab: Se va putea accesa un clasament pe breasla, in functie de level.
+		</p>
+
+	<p><strong>8.	Weaponsmith</strong></p>
+	<p>Aici user-ul va putea cumpara arme noi, la un pret predefinit. De asemenea, el va putea vinde orice tip de item, 
+	dar la un pret mult mai redus.
+	</p>
+	
+	<p><strong>9.	Armoursmith</strong></p>
+	<p>Aici user-ul va putea cumpara armuri noi, la un pret predefinit. De asemenea, el va putea vinde orice tip de item, dar 
+	la un pret mult mai redus.</p>
+	
+	<p><strong>10.	Goods merchant	</strong></p>
+	<p>Aici user-ul va putea cumpara food si potions, la un pret predefinit. De asemenea, el va putea vinde orice tip de item, 
+	dar la un pret mult mai 
+	redus.
+	</p>
+
+	<strong></p>11.	Crafting*</strong></p>
+	<p>Aici user-ul va avea posibilitatea sa isi creeze propriile arme, utilizand iron sau/si wood.
+	In al doilea tab, acesta va avea posibilitatea de a-si dezmembra armele, obtinand iron. Lemnul se poate obtine de la munca de Woodcutter.
+	Observatie: Butonul de Crafting va fi activ incepand cu nivelul 10.
+	</p>
+
+	<p><strong>12.	Upgrade*</strong></p>
+	<p>User-ul isi va putea imbunatati caracteristicile propriilor item-uri, mai putin cele consumabile.</p>
+
+	<p><strong>13.	Market*</strong></p>
+	<p>User-ul va putea sa puna in vanzare propriile item-uri si, de asemenea, va putea cumpara item-uri puse de alti useri la pretul ales de 
+	acestia.
+	</p>
+	
+	<p>
+	*Acestea sunt optionale si vor fi implementate sau nu in functie de timpul aflat la dispozitie.
+	</p>
+    </section>
+	<section id="file-headers">
+	
+	</p><strong>Observatii finale:</strong></p> 
+	<p>
+	<ul>
+<li>	Intre pasi vor fi deschide tab-uri in care sa se explice utilizatorului cum sa se descurce la pasul curent.</li>
+<li>	Fiecare nivel va avea o valoare maxima a atributelor, valoare ce nu poate fi depasita decat daca user-ul trece la nivelul urmator.</i>
+<li>	La inceput, fiecare caracter va avea la fiecare caracteristica 50% din valoarea maxima prefedinita pentru acel atribut la nivelul 1.</li>
+<li>	Pentru a simula ideea de sinusoidala din punct de vedere al dificultatii, ne-am gandit sa folosim experienta drept protagonist. Atunci cand
+ va descoperi/debloca noi locatii, utilizatorului ii va creste experienta, insa, odata cu initierea luptelor in acea zona, aceasta va creste din 
+ ce in ce mai putin ( Explicatie: pentru ca user-ul va fi nou in acea zona si nu cunoaste imprejurimile, va primi mai multa experienta pentru a-l
+ ajuta in lupta. Odata ce se obisnuieste cu noua zona, el va primi din ce in ce mai putin experienta, nemaiavand nevoie de ea).</li>
+	</section>  
+    </article>
+	</body>
+</html>
