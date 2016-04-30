@@ -2,7 +2,7 @@ var orm = require('orm');
 var bcrypt   = require('bcrypt-nodejs');
 
 module.exports = function(app) {
-	var str = "mysql://sql7115093:9L8lUdwDWb@sql7.freemysqlhosting.net:3306/sql7115093";
+	var str = "mysql://sql7116871:hLTAWewfLZ@sql7.freemysqlhosting.net:3306/sql7116871";
 	var encoded_str = str.replace(/%([^\d].)/, "%25$1");
 	app.use(orm.express(encoded_str,
 	{
@@ -12,6 +12,7 @@ module.exports = function(app) {
 				username : String,
 				password : String,
 				email : String,
+				twitterID : String,
 				gender : ["male", "female", ""],
 				origin : ["north", "east", "south", "west", ""]
 			}, {
@@ -37,6 +38,18 @@ module.exports = function(app) {
 				charisma:Number,
 				guildID:Number,
 				gold: Number
+			},{
+				methods: {
+					
+				}
+			});
+			
+			models.guild=db.define("guild",{
+				guildID: { type: 'number', key: true },
+				guildName:String,
+				ownerID:Number,
+				number_members:Number,
+				level:Number
 			},{
 				methods: {
 					
@@ -70,6 +83,62 @@ module.exports = function(app) {
 				}
 			});
 			
+			models.weapon=db.define("weapon",{
+				weaponID:{ type: 'number', key: true },
+				damage_min:Number,
+				damage_max:Number,
+				upgrade_level:Number,
+				price:Number,
+				weaponName:String,
+				weight:Number
+			},{
+				methods: {
+					
+				}
+			});
+			
+			models.consumable=db.define("consumable",{
+				consumableID:{ type: 'number', key: true },
+				consumableType:String,
+				consumableName:String,
+				consumableHP:Number,
+				price:Number
+			},{
+				methods: {
+					
+				}
+			});
+			
+			models.armour=db.define("armour",{
+				armourID:{ type: 'number', key: true },
+				armourType:String,
+				strength:Number,
+				agility:Number,
+				stamina:Number,
+				charisma:Number,
+				upgrade_level:Number,
+				price:Number,
+				weight:Number,
+				armourName:String,
+				defense:Number
+			},{
+				methods: {
+					
+				}
+			});
+			
+			models.market=db.define("market",{
+				auctionID: { type: 'number', key: true },
+				userID:Number,
+				price:Number,
+				duration:Number,
+				inventoryID:Number
+			},{
+				methods: {
+					
+				}
+			});
+			
 			models.fights=db.define("fights", {
 				userID: { type: 'number', key: true},
 				total:Number,
@@ -81,6 +150,17 @@ module.exports = function(app) {
 				gold_won:Number,
 				gold_lost:Number,
 				type: { type: 'enum', values: ['dungeon', 'arena'], key: true}
+			}, {
+				methods : {
+					
+				}
+			});
+			
+			models.warehouse=db.define("warehouse", {
+				warehouseID: { type: 'number', key: true},
+				itemID:Number,
+				type:String,
+				timestamp: Date
 			}, {
 				methods : {
 					

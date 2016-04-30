@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+		<title>Spartan Assault</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="/javascript/login.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<% if (messageLoginUser.length > 0) { %>
+					<div class="alert alert-danger" style="background-color: rgba(243,217,131,0.5); position:relative; top:114px; left:1168px; width: 200px; height: 20px; color: red;"><b><%= messageLoginUser %></b></div>
+			<% } %>
+			<% if (messageLoginPass.length > 0) { %>
+					<div class="alert alert-danger" style="background-color: rgba(243,217,131,0.5); position:relative; top:146px; left:1168px; width: 200px; height: 40px; color: red;"><b><%= messageLoginPass %></b></div>
+			<% } %>
+			
+			<div id="login_wrapper">
+				<div id="container_login_button_wrapper">
+					<div id="container_login_button"></div>
+				</div>
+				<div id="container_login">
+					<form action="/login" method="post" style="color:white;">
+						<input name="user_login" style="position: relative; top: 39px; left: 17px; width: 82%; height: 18px; background-color: transparent; border: medium none; opacity: 0.5;" type="text">
+						<input name="pass_login" style="position: relative; top: 55px; left: 17px; width: 82%; height: 18px; background-color: transparent; border: medium none; opacity: 0.5;" type="password">
+						<input value="login" style="position: relative; top: 59px; left: 50px; width: 50%; height: 28px; opacity: 0; cursor: pointer;" type="submit">
+					</form>
+				</div>
+			</div>
+			
+
+			
+			<% if (messageUser.length > 0) { %>
+					<div class="alert alert-danger" style="background-color: rgba(243,217,131,0.5); position:relative; top:315px; left:840px; width: 200px; height: 40px; color: red;"><b><%= messageUser %></b></div>
+			<% } %>
+			<% if (messagePass.length > 0) { %>
+					<div class="alert alert-danger" style="background-color: rgba(243,217,131,0.5); position:relative; top:365px; left:840px; width: 200px; height: 40px; color: red;"><b><%= messagePass %></b></div>
+			<% } %>
+			<% if (messageEmail.length > 0) { %>
+					<div class="alert alert-danger" style="background-color: rgba(243,217,131,0.5); position:relative; top:418px; left:840px; width: 200px; height: 40px; color: red;"><b><%= messageEmail %></b></div>
+			<% } %>
+			<% if (messageLicense.length > 0) { %>
+					<div class="alert alert-danger" style="background-color: rgba(243,217,131,0.5); position:relative; top:430px; left:840px; width: 200px; height: 40px; color: red;"><b><%= messageLicense %></b></div>
+			<% } %>
+			
+			
+			<div id="register_wrapper">
+			
+				<div id="container_register">
+
+					<form action="/register" method="post" style="color:white;" >
+						<input name="user_register" style="position: relative; width: 175px; height: 13px; background-color: transparent; border: medium none; opacity: 0.5; top: -51px; left: 25px;" type="text">
+						<input name="pass_register" style="position: relative; top: -20px; height: 13px; background-color: transparent; border: medium none; opacity: 0.5; width: 175px; left: 25px;" type="password">
+						<input name="email_register" style="position: relative; top: 10px; height: 13px; background-color: transparent; border: medium none; opacity: 0.5; width: 175px; left: 25px;" type="text">
+						<input name="license" style="position: relative; top: 34px; left: -165px; width: 12px; height: 12px;" type="checkbox">
+						<input value="register" style="position: relative; top: 43px; left: 50px; width: 130px; height: 40px; opacity: 0; cursor: pointer;" type="submit">
+					</form>
+					<div id="terms" onclick="location.href='/terms'" style="position:relative; background-color: red; top:-24px; left: 102px; width:85px; height:15px; opacity:0; cursor: pointer;">
+					</div>
+				</div>	
+				
+			</div>
+			<button onClick="location.href='/twitter'">Twitter
+			</button>
+		</div>
+	</body>
+</html>

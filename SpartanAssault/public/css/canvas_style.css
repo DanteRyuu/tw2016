@@ -5,7 +5,7 @@
 	}
 	
 	#container{
-		background-image:url(../assets/main/canvas.png);
+		background-image:url(../assets/canvas.png);
 		background-repeat: no-repeat;
 		background-position: fixed;
 		background-color:black;
@@ -31,13 +31,13 @@
 	}
 	
 	.addBackgroundLeft {
-		background-image:url(../assets/main/yellow_frame_left.png);
+		background-image:url(../assets/yellow_frame_left.png);
 		background-repeat:no-repeat;
 		background-position: bottom center;
 	}
 	
 	.addBackgroundRight {
-		background-image:url(../assets/main/yellow_frame_right.png);
+		background-image:url(../assets/yellow_frame_right.png);
 		background-repeat:no-repeat;
 		background-position: bottom center;
 	}
