@@ -8,8 +8,8 @@ var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
+var models = require("../config/models");
 
-require('./config/database')(app);
 require('./config/passport')(passport, app);
 
 app.use(morgan('dev'));
@@ -27,6 +27,7 @@ app.use(flash());
 
 require('./app/routes.js')(app, passport);
 
-
-app.listen(port);
-console.log('Listening on port ' + port);
+models.sequelize.sync().then(function () {
+	app.listen(port);
+	console.log('Listening on port ' + port);
+});
