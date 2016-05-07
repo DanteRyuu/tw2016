@@ -47,7 +47,7 @@ module.exports = function(passport, app) {
 
                     newUser.save(function(err) {
                         if (err)
-                            throw err;
+                            //throw err;
                         return done(null, newUser);
                     });
                 }
@@ -116,7 +116,7 @@ module.exports = function(passport, app) {
 
 					User.find({ }, function(err, users) {
 						if (err) {
-							throw err;
+							//throw err;
 							console.log('Find error : '+err);
 						}
 						
@@ -129,13 +129,11 @@ module.exports = function(passport, app) {
 					newUser.username = user_register;
 					newUser.password = newUser.generateHash(pass_register);
 					newUser.email = req.body.email_register;
-					newUser.gender = "";
-					newUser.origin = "";
 
 					// save the user
 					newUser.save(function(err) {
 						if (err) {
-							throw err;
+							//throw err;
 							console.log('Save error : '+err);
 						}
 						return done(null, newUser);
@@ -153,11 +151,10 @@ module.exports = function(passport, app) {
 						newChar.agility = 1;
 						newChar.stamina = 1;
 						newChar.charisma = 1;
-						newChar.gold = 0;
 						
 						newChar.save(function(err) {
 							if(err) {
-								throw err;
+								//throw err;
 								console.log('Save error : '+err);
 							}
 							return done(null, newChar);
@@ -175,46 +172,54 @@ module.exports = function(passport, app) {
 						
 						newEquipment.save(function(err) {
 							if(err) {
-								throw err;
+								//throw err;
 								console.log('Save error : '+err);
 							}
 							return done(null, newEquipment);
 						});
 						
-						/*User.find({ username : user_register }, function(err, user) {
-							if(!err) {
-								var Fights = req.models.fights;
-								var newFights = new Fights();
-								
-								newFights.userID = user.userID;
-								newFights.total = 0;
-								newFights.wins = 0;
-								newFights.defeats = 0;
-								newFights.draws = 0;
-								newFights.dmg_taken = 0;
-								newFights.dmg_dealt = 0;
-								newFights.gold_won = 0;
-								newFights.gold_lost = 0;
-								newFights.type = "dungeon";
-								
-								newFights.save(function(err) {
-									if(err) {
-										throw err;
-										console.log('Save error : '+err);
-									}
-									return done(null, newFights);
-								});
-								
-								newFights.type = "arena";
-								newFights.save(function(err) {
-									if(err) {
-										throw err;
-										console.log('Save error : '+err);
-									}
-									return done(null, newFights);
-								});
+
+						var Fights = req.models.fights;
+						var newFights = new Fights();
+						
+						newFights.username = user_register;
+						newFights.total = 0;
+						newFights.wins = 0;
+						newFights.defeats = 0;
+						newFights.draws = 0;
+						newFights.dmg_taken = 0;
+						newFights.dmg_dealt = 0;
+						newFights.gold_won = 0;
+						newFights.gold_lost = 0;
+						newFights.type = "dungeon";
+						
+						newFights.save(function(err) {
+							if(err) {
+								//throw err;
+								console.log('Save error : '+err);
 							}
-						});*/
+							return done(null, newFights);
+						});
+						
+						var newFights2 = new Fights();
+						
+						newFights2.username = user_register;
+						newFights2.total = 0;
+						newFights2.wins = 0;
+						newFights2.defeats = 0;
+						newFights2.draws = 0;
+						newFights2.dmg_taken = 0;
+						newFights2.dmg_dealt = 0;
+						newFights2.gold_won = 0;
+						newFights2.gold_lost = 0;
+						newFights2.type = "arena";
+						newFights2.save(function(err) {
+							if(err) {
+								//throw err;
+								console.log('Save error : '+err);
+							}
+							return done(null, newFights2);
+						});
 					
 					});
 				}

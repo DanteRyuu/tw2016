@@ -1,9 +1,0 @@
-{
-	"mysql": {
-		"Hostname": "danteryuu-spartan-assault-3071509"
-		"Port": "3306",
-		"User": "DanteRyuu",
-		"Password": "",
-		"Database": "c9"
-	}
-}
