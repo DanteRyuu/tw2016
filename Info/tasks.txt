@@ -1,0 +1,15 @@
+Haivas Ciprian: 
+	- realizarea unor tipuri de scenarii pentru dungeon-uri, inclusiv creaturile intalnite si reward-urile posibile
+	- realizarea de cod HTML/CSS si layout pentru unele pagini
+	- inregistrarea video a unor functionalitati si scenarii ale jocului (login, inregistrare, schimbare item, lupta, etc.)
+	- lupta in dungeon-uri, impotriva creaturilor ce se gasesc in acestea
+	
+Halceanu Andrei:
+	- realizarea de cod HTML/CSS si layout pentru unele pagini
+	- functionalitati ca: partea de work, schimbarea itemelor, folosirea itemelor de tip consumable, cumparare/vanzare itemelor
+	- realizarea arhictecturii aplicatiei si a bazei de date
+	
+Zamosteanu Catalin:
+	- realizarea de cod HTML/CSS si layout pentru unele pagini
+	- lupta in cadrul Colosseum-ului, atat random, cat si cu un adversar ales
+	- lupta in dungeon-uri, impotriva creaturilor ce se gasesc in acestea
