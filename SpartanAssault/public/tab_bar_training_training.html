@@ -2,66 +2,77 @@
 
 <html>
 <head>
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="css/tab_bar_training_training_style.css" media="screen" />
 <title>Spartan Assault</title>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/javascript/jquery.js"></script>
 </head>
 <body>
 	<div id="container">
 		<div id="training"></div>
 		<div id="trainingTitle">Training Court</div>
 		<div id="prop">Here you can increase your fighting skill. Click on the plus sign to increase the desired status.</div>
-		<div id="tablepicture">
-			<div id="tablediv">
-				<table>
-					<tr>
-						<td>Status1</td>
-						<td>30</td>
-						<td>+</td>
-						<td>2</td>
-						<td>=</td>
-						<td>32</td>
-						<td>Plus</td>
-					</tr>
-					<tr>
-						<td>Status2</td>
-						<td>31</td>
-						<td>+</td>
-						<td>2</td>
-						<td>=</td>
-						<td>33</td>
-						<td>Plus</td>
-					</tr>
-					<tr>
-						<td>Status3</td>
-						<td>29</td>
-						<td>+</td>
-						<td>1</td>
-						<td>=</td>
-						<td>30</td>
-						<td>Plus</td>
-					</tr>
-					<tr>
-						<td>Status4</td>
-						<td>28</td>
-						<td>+</td>
-						<td>3</td>
-						<td>=</td>
-						<td>31</td>
-						<td>Plus</td>
-					</tr>
-					<tr>
-						<td>Status5</td>
-						<td>31</td>
-						<td>+</td>
-						<td>1</td>
-						<td>=</td>
-						<td>32</td>
-						<td>Plus</td>
-					</tr>
-				</table>
+		<div id="tablediv">
+			<div id="aux">
+				<script type="text/javascript" language="javascript">
+					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.open("GET","http://spartan-assault-danteryuu.c9users.io/training", true);
+										xmlhttp.send();
+					xmlhttp.onreadystatechange=function(){
+						if (xmlhttp.readyState==4 && xmlhttp.status==200){
+							var json_text = xmlhttp.responseText;
+							var json_obj = JSON.parse(json_text);
+							var stats=json_obj["stats"];
+							var generatedTable="<table>";
+							for(var index=0;index<stats.length;index++){
+								generatedTable+="<tr><td>"+stats[index]["statName"]+"</td>"+
+												"<td>"+stats[index]["statValue"]+"</td><td>+</td><td id=\"plus"+stats[index]["statName"]+"\">"+0+"</td><td>=</td><td id=\"result"+stats[index]["statName"]+"\">"+stats[index]["statValue"]+
+												"</td><td><div id=\"plus\" onclick=\"increaseStat('"+stats[index]["statName"]+"','"+stats[index]["statValue"]+"')\" ></div></td></tr>";
+							}
+							generatedTable+="</table>";
+							generatedTable+= "<div><button type=\"button\" onclick=\"startTraining()\">Start training</button></div>";
+							$(function(){
+								$('#aux').replaceWith($(generatedTable));
+							});
+						}
+					}											
+					function increaseStat(valoare,cantitate){
+						//document.getElementByTagName("button").disabled="enabled";
+						var plus="plus"+valoare;
+						var result="result"+valoare;
+						var avTrPoints=parseInt(document.getElementById("trainingPoints").innerHTML);
+						if(avTrPoints>0){
+							var plusValue=parseInt(document.getElementById(plus).innerHTML);
+							plusValue=plusValue+1;
+							document.getElementById(plus).innerHTML=plusValue;
+							document.getElementById(result).innerHTML=plusValue+parseInt(cantitate);
+						}
+					};
+					/*function decreaseStat(valoare,cantitate){
+						//document.getElementByTagName("button").disabled="enabled";
+						var plus="plus"+valoare;
+						var result="result"+valoare;
+						var avTrPoints=parseInt(document.getElementById("trainingPoints").innerHTML);
+						var plusValue=parseInt(document.getElementById(plus).innerHTML);
+						if(plusValue>0){
+							plusValue=plusValue-1;
+							document.getElementById(plus).innerHTML=plusValue;
+							document.getElementById("trainingPoints").innerHTML=avTrPoints+1;
+							document.getElementById(result).innerHTML=plusValue+parseInt(cantitate);
+						}
+					};*/
+					function startTraining(){
+						var xmlhttp1 = new XMLHttpRequest();
+						xmlhttp1.open("POST","/training",true);
+						xmlhttp1.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+						var newStrength=parseInt(document.getElementById("resultStrength").innerHTML);
+						var newAgility=parseInt(document.getElementById("resultAgility").innerHTML);
+						var newStamina=parseInt(document.getElementById("resultStamina").innerHTML);
+						var newCharisma=parseInt(document.getElementById("resultCharisma").innerHTML);
+						var newGold = 250;
+						xmlhttp1.send("newStrength="+newStrength+"&newAgility="+newAgility+"&newStamina="+newStamina+"&newCharisma="+newCharisma + "&newGold=" + newGold);
+					}
+				</script>
 			<div>
 		</div>
 	</div>

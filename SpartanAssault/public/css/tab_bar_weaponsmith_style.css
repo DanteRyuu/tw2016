@@ -32,9 +32,7 @@
 	#info{
 		background-image:url(../assets/strengths_final.jpg);
 		background-repeat:no-repeat;
-		background-size:contain;
 		position:absolute;
-		background-color:green;
 		background-size:cover;
 		top:20px;
 		left:400px;
@@ -47,7 +45,6 @@
 	#armoursmith_inventory {
 		background-image:url(../assets/armoursmith_inventory.png);
 		background-repeat:no-repeat;
-		background-size:contain;
 		position:absolute;
 		background-size:cover;
 		top:150px;
@@ -59,9 +56,7 @@
 	#picture{
 		background-image:url(../assets/weaponsmith.jpg);
 		background-repeat:no-repeat;
-		background-size:contain;
 		position:absolute;
-		background-color:green;
 		background-size:cover;
 		top:20px;
 		left:50px;

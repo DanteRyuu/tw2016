@@ -2,7 +2,6 @@ var LocalStrategy   = require('passport-local').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
 
 var configAuth = require('../app/auth');
-var randomstring = require("randomstring");
 
 module.exports = function(passport, app) {
 	
@@ -19,39 +18,131 @@ module.exports = function(passport, app) {
 	passport.use('twitter', new TwitterStrategy({
 		consumerKey     : configAuth.twitterAuth.consumerKey,
         consumerSecret  : configAuth.twitterAuth.consumerSecret,
-        callbackURL     : configAuth.twitterAuth.callbackURL
+        callbackURL     : configAuth.twitterAuth.callbackURL,
+        passReqToCallback: true
 	},
-	function(token, tokenSecret, profile, done) {
-		var db = require('../config/database')(app);
-		var User = app.user;
+	function(req, token, tokenSecret, profile, done) {
+		var User = req.models.user;
 		
-		process.nextTick(function() {
-			User.findOne({'twitterID' : profile.id }, function(err, user) {
-				if (err) {
-                    return done(err);
-				}
+		User.find({'twitterID' : profile.id }, function(err, user) {
+			if (err) {
+                return done(err);
+			}
+			
+			if (user.length > 0) {
 				
-				if (user) {
-					req.session.username = user[0].username;
-					req.session.gender = user[0].gender;
-					req.session.origin = user[0].origin;
-					req.session.user_id = user[0].userID;
+				req.session.username = user[0].username;
+				req.session.gender = user[0].gender;
+				req.session.origin = user[0].origin;
+				req.session.user_id = user[0].userID;
+				
+                return done(null, user[0]);
+            } else {
+                var newUser = new User();
+
+                newUser.twitterID = profile.id;
+                newUser.username = profile.username;
+
+                newUser.save(function(err) {
+                    if (err)
+                        throw err;
+                    return done(null, newUser);
+                });
+                
+                process.nextTick(function() {
 					
-                    return done(null, user);
-                } else {
-                    var newUser = new User();
+					var Character = req.models.character;
+					var newChar = new Character();
+					
+					newChar.level = 1;
+					newChar.xp = 0;
+					newChar.hp = 100;
+					newChar.strength = 10;
+					newChar.agility = 10;
+					newChar.stamina = 10;
+					newChar.charisma = 10;
+					newChar.gold = 250;
+					
+					newChar.save(function(err) {
+						if(err) {
+							//throw err;
+							console.log('Save error : '+err);
+						}
+						return done(null, newChar);
+					});
+					
+					var Equip = req.models.equipment;
+					var newEquipment = new Equip();
+					
+					newEquipment.helmetID = 2;
+					newEquipment.chestID = 3;
+					newEquipment.glovesID = 1;
+					newEquipment.bootsID = 0;
+					newEquipment.weaponID = 0;
+					newEquipment.shieldID = 4;
+					
+					newEquipment.save(function(err) {
+						if(err) {
+							//throw err;
+							console.log('Save error : '+err);
+						}
+						return done(null, newEquipment);
+					});
+					
 
-                    newUser.twitterID = profile.id;
-                    newUser.username = profile.username;
-                    newUser.password = newUser.generateHash(randomstring.generate(10));
-
-                    newUser.save(function(err) {
-                        if (err)
-                            //throw err;
-                        return done(null, newUser);
-                    });
-                }
-			});
+					var Fights = req.models.fights;
+					var newFights = new Fights();
+					
+					newFights.username = profile.username;
+					newFights.total = 0;
+					newFights.wins = 0;
+					newFights.defeats = 0;
+					newFights.draws = 0;
+					newFights.dmg_taken = 0;
+					newFights.dmg_dealt = 0;
+					newFights.gold_won = 0;
+					newFights.gold_lost = 0;
+					newFights.type = "dungeon";
+					
+					newFights.save(function(err) {
+						if(err) {
+							//throw err;
+							console.log('Save error : '+err);
+						}
+						return done(null, newFights);
+					});
+					
+					var newFights2 = new Fights();
+					
+					newFights2.username = profile.username;
+					newFights2.total = 0;
+					newFights2.wins = 0;
+					newFights2.defeats = 0;
+					newFights2.draws = 0;
+					newFights2.dmg_taken = 0;
+					newFights2.dmg_dealt = 0;
+					newFights2.gold_won = 0;
+					newFights2.gold_lost = 0;
+					newFights2.type = "arena";
+					newFights2.save(function(err) {
+						if(err) {
+							//throw err;
+							console.log('Save error : '+err);
+						}
+						return done(null, newFights2);
+					});
+				
+					User.find({ username : profile.username}, function(err, users) {
+						if(!err) {
+							req.session.username = users[0].username;
+							req.session.gender = users[0].gender;
+							req.session.origin = users[0].origin;
+							req.session.user_id = users[0].userID;
+						}
+						else console.log('Error: '+err);
+					});
+				});
+            }
 		});
 	}));
 	
@@ -139,7 +230,7 @@ module.exports = function(passport, app) {
 						return done(null, newUser);
 					});
 					
-					process.nextTick(function(ID) {
+					process.nextTick(function() {
 					
 						var Character = req.models.character;
 						var newChar = new Character();
@@ -147,10 +238,12 @@ module.exports = function(passport, app) {
 						newChar.level = 1;
 						newChar.xp = 0;
 						newChar.hp = 100;
-						newChar.strength = 1;
-						newChar.agility = 1;
-						newChar.stamina = 1;
-						newChar.charisma = 1;
+						newChar.max_hp = 100;
+						newChar.strength = 10;
+						newChar.agility = 10;
+						newChar.stamina = 10;
+						newChar.charisma = 10;
+						newChar.gold = 250;
 						
 						newChar.save(function(err) {
 							if(err) {
@@ -255,7 +348,7 @@ module.exports = function(passport, app) {
 			req.session.origin = user[0].origin;
 			req.session.user_id = user[0].userID;
 
-			return done(null, user);
+			return done(null, user[0]);
 		});
 	}));
 };

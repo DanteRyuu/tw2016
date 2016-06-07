@@ -40,6 +40,58 @@
 		z-index:3;
 	}
 	
+	#forestTab{
+		position:absolute;
+		left:50px;
+		width:600px;
+		height:416px;
+		background-image:url(../assets/forestBackground.jpg);
+		background-size:contain;
+		background-repeat: no-repeat;
+	}
+	
+	#forestButton{
+		position:absolute;
+		top:390px;
+		left:270px;
+		width:25px;
+		height:10px;
+	}
+	
+	#forestInfo{
+		position:absolute;
+		left:670px;
+		width:350px;
+		height:416px;
+		background-color: red;
+		background-image:url(../assets/high_druid.jpg);
+		background-size:cover;
+		background-repeat: no-repeat;
+		opacity: 0.7;
+	}
+	
+	#reward
+	{
+		position:absolute;
+		left:80px;
+		top:360px;
+		width:200px;
+		height:50px;
+		opacity: 0.5;
+		background-color: green;
+	}
+	
+	#win_lose
+	{
+		position:absolute;
+		left:125px;
+		top:20px;
+		width:100px;
+		height:50px;
+		opacity: 0.25;
+		background-color: blue;
+	}
+	
 	#canvas{
 		position:relative;
 		width:1053px;

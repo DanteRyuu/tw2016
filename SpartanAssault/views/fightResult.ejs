@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tab_bar_fightResult_style.css" media="screen" />
+<title>Spartan Assault</title>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+</head>
+<body>
+	<div id="container">
+		<div id="winner"></div>
+		<div id="reward">
+		<p>Gold : 50</p>
+		<p>XP : 50</p>
+		<p>Honor points 10</p>
+		</div>
+		<div id="characterTitle1">
+			<p>		<%= JSON_BATTLE["myUserName"]%></p>
+		</div>
+		<div id="characterTitle2">
+			<p>		<%= JSON_BATTLE["enemyName"]%></p>
+		</div>
+		<div id="characterImage1"></div>
+		<div id="characterImage2"></div>
+		<div id="characterStatus1">
+	
+			<p>Level : <%= JSON_BATTLE["myLvl"]%></p>	
+			<p>Attack : <%= JSON_BATTLE["myDmg"]%></p>
+			<p>Defense : <%= JSON_BATTLE["myDefense"]%></p>
+			<p>Health: <%= JSON_BATTLE["myHp"]%></p>
+			<p>Agility: <%= JSON_BATTLE["myAgility"]%> </p>
+			<p>Stamina : <%= JSON_BATTLE["myStamina"]%></p>
+			<p>Strength : <%= JSON_BATTLE["myStrength"]%></p>
+		</div>
+		
+		<div id="characterStatus2">
+			<p>Level : <%= JSON_BATTLE["enemyLvl"]%></p>	
+			<p>Attack : <%= JSON_BATTLE["enemyDmg"]%></p>
+			<p>Defense : <%= JSON_BATTLE["enemyDefense"]%></p>
+			<p>Health: <%= JSON_BATTLE["enemyHp"]%></p>
+			<p>Agility: <%= JSON_BATTLE["enemyAgility"]%> </p>
+			<p>Stamina : <%= JSON_BATTLE["enemyStamina"]%></p>
+			<p>Strength : <%= JSON_BATTLE["enemyStrength"]%></p>
+		</div>
+		
+		<div id="winner">
+			<p>RESULT : <%=JSON_BATTLE["winner"]%></p>
+		</div>
+	</div>
+</body>
+</html>

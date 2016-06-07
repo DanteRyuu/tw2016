@@ -35,8 +35,14 @@
 		text-indent: 30px;
 	}
 	
-	#battle{
+	#randombattle{
 		position:absolute;
 		top:150px;
+		left:675px;
+	}
+	
+	#battle{
+		position:absolute;
+		top:250px;
 		left:675px;
 	}

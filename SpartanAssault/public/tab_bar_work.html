@@ -6,59 +6,130 @@
 <link rel="stylesheet" type="text/css" href="css/tab_bar_work_style.css" media="screen" />
 <title>Spartan Assault</title>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/javascript/jquery.js"></script>
 </head>
 <body>
 	<div id="container">
 		<div id="work"></div>
 		<div id="desc"><p>When you are not fighting in the colosseum you can work in the city either as a woodcutter, a baker or as a fisherman. You can choose from one of the occupations below:</p></div>
 		<div id="table">
-			<table  style="width:300px">
-				<tr>
-					<td class="changecolor">Job name</td>
-					<td class="changecolor">Salary(hourly)</td>
-					<td class="changecolor">Hours</td>
-				</tr>
-				<tr>
-					<td  class="changecolor">Job1</td>
-					<td>400</td>
-					<td>1-24</td>
-				</tr>
-				<tr>
-					<td  class="changecolor">Job2</td>
-					<td>800</td>
-					<td>1-8</td>
-				</tr>
-				<tr>
-					<td  class="changecolor">Job3</td>
-					<td>600</td>
-					<td>1-8</td>
-				</tr>
-				<tr>
-					<td  class="changecolor">Job4</td>
-					<td>900</td>
-					<td>1-6</td>
-				</tr>
-			</table>
-			Choose a job  
-			<select>
-			  <option value="job1">Job1</option>
-			  <option value="job2">Job2</option>
-			  <option value="job3">Job3</option>
-			  <option value="job4">Job4</option>
-			</select>
-			and the number of hours you want to work
-			<select>
-			  <option value="1">1</option>
-			  <option value="2">2</option>
-			  <option value="3">3</option>
-			  <option value="4">4</option>
-			  <option value="5">5</option>
-			  <option value="6">6</option>
-			  <option value="7">7</option>
-			  <option value="8">8</option>
-			</select>
-			
+			<script type="text/javascript">
+				var joblist;
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET","http://spartan-assault-danteryuu.c9users.io/work", true);
+				var changeFunc;
+				xmlhttp.onreadystatechange=function(){
+					if (xmlhttp.readyState==4 && xmlhttp.status==200){
+						var json_text = xmlhttp.responseText;
+						var json_obj = JSON.parse(json_text);
+						joblist=json_obj["jobs"];
+						var formattedJSON="<table  style=\"width:300px\">";
+						formattedJSON+="<tr><td class=\"changecolor\">Job name</td>"+
+											"<td class=\"changecolor\">Salary(hourly)</td>"+
+											"<td class=\"changecolor\">Hours</td>"+ 
+											"<td class=\"changecolor\">Reward</td></tr>";
+						for(var index=0;index<joblist.length;index++){
+							formattedJSON+="<tr><td  class=\"changecolor\">"+joblist[index]["jobname"]+"</td>"+
+											"<td>"+joblist[index]["salary"]+"</td>"+
+											"<td>"+joblist[index]["minhours"]+"-"+joblist[index]["maxhours"]+"</td>"+
+											"<td>"+joblist[index]["reward"]+"</td></tr>";
+						}
+						formattedJSON+="</table>";
+						var jobSelect="<div id=\"replacediv\">Choose the job <select id=\"jobSelect\" onchange=\"changeFunc()\">";
+						for(var index2=0;index2<joblist.length;index2++){
+							jobSelect+="<option value=\""+joblist[index2]["jobname"]+"\">"+joblist[index2]["jobname"]+"</option>";
+						}
+						jobSelect+="</select>";
+						var hoursSelect="<div id=\"hoursDiv\"><input id=\"hoursSelect\" type=\"range\" min="+1+" max="+8+" value="+1+" onchange=\"showValue(this.value)\"/><span id=\"range\">"+1+"</span></div>";
+						var finalOutput="<div id=\"table\">" + formattedJSON+jobSelect+" and select the number of hours you want to work  "+
+										"<div id=\"divbutton\"><button id=\"button\" type=\"button\" onclick=\"startWorking()\">Start working</button></div>"+hoursSelect+"</div></div>";
+						
+						$(function() {
+							$('#table').replaceWith($(finalOutput));
+						});
+						if(json_obj["working"]==false){
+							var jobSelect="<div id=\"replacediv\">Choose the job <select id=\"jobSelect\" onchange=\"changeFunc()\">";
+							for(var index=0;index<joblist.length;index++){
+								jobSelect+="<option value=\""+joblist[index]["jobname"]+"\">"+joblist[index]["jobname"]+"</option>";
+							}
+							jobSelect+="</select>";
+							var hoursSelect="<div id=\"hoursDiv\"><input id=\"hoursSelect\" type=\"range\" min="+1+" max="+8+" value="+1+" onchange=\"showValue(this.value)\"/><span id=\"range\">"+1+"</span></div>";
+							var finalOutput="<div id=\"table\">" + jobSelect + " and select the number of hours you want to work  "+
+											"<div id=\"divbutton\"><button id=\"button\" type=\"button\" onclick=\"startWorking()\">Start working</button></div>"+hoursSelect+"</div></div>";
+							$(function() {
+								$('#table').replaceWith($(finalOutput));
+							});
+						}else{
+							if(json_obj["jobdone"]==false){		
+								var stillWorking="<div id=\"replacediv\">Still working<div>";
+								$(function() {
+									$('#replacediv').replaceWith($(stillWorking));
+								});
+							}else{
+								if(json_obj["jobdone"]==true){
+									alert("Job Done");
+									var newButton="<div id=\"replacediv\"><button type=\"button\" onclick=\"collect()\">Collect Reward</button></div>";
+									$(function() {
+										$('#replacediv').replaceWith($(newButton));
+									});
+								}else{
+									alert("else");
+								}
+							}
+						}
+					}
+					changeFunc= function (){
+						var selectBox = document.getElementById("jobSelect");
+						var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+						for(var altindex=0;altindex<joblist.length;altindex++){
+							if(joblist[altindex]["jobname"]===selectedValue){
+								var min=joblist[altindex]["minhours"];
+								var max=joblist[altindex]["maxhours"];
+								var hourSelect="<div id=\"hoursDiv\"><input id=\"hoursSelect\" type=\"range\" min="+min+" max="+max+" value="+min+" onchange=\"showValue(this.value)\"/><span id=\"range\">"+min+"</span></div>";
+								$(function() {
+									$('#hoursDiv').replaceWith($(hourSelect));
+								});
+							}
+						}
+					}
+				}
+				xmlhttp.send();
+				function showValue(newValue){
+					document.getElementById("range").innerHTML=newValue;
+				}
+				function startWorking(){
+					alert("Started working");
+					var selectBox = document.getElementById("jobSelect");
+					var job = selectBox.options[selectBox.selectedIndex].value;
+					var input = document.getElementById("hoursSelect");
+					var hours = input.value;
+					var xmlhttp1 = new XMLHttpRequest();
+					xmlhttp1.open("POST","/work",true);
+					xmlhttp1.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+					xmlhttp1.send("job="+job+"&hours="+hours);
+					var newButton="<div id=\"replacediv\">You will work as a "+job+" for the next "+ hours+" hour(s)</div>";
+					$(function() {
+						$('#replacediv').replaceWith($(newButton));
+					});
+				}
+				function collect(){
+					var xmlhttp2 = new XMLHttpRequest();
+					xmlhttp2.open("POST","http://spartan-assault-danteryuu.c9users.io/jobdone",true);
+					xmlhttp2.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+					xmlhttp2.send();
+					var jobSelect="<div id=\"replacediv\">Choose the job <select id=\"jobSelect\" onchange=\"changeFunc()\">";
+					for(var index=0;index<joblist.length;index++){
+						jobSelect+="<option value=\""+joblist[index]["jobname"]+"\">"+joblist[index]["jobname"]+"</option>";
+					}
+					jobSelect+="</select>";
+					var hoursSelect="<div id=\"hoursDiv\"><input id=\"hoursSelect\" type=\"range\" min="+1+" max="+8+" value="+1+" onchange=\"showValue(this.value)\"/><span id=\"range\">"+1+"</span></div>";
+					var finalOutput=jobSelect+" and select the number of hours you want to work  "+hoursSelect+
+									"<div id=\"divbutton\"><button id=\"button\" type=\"button\" onclick=\"startWorking()\">Start working</button></div>"+"</div>";
+					$(function() {
+						$('#replacediv').replaceWith($(finalOutput));
+					});
+				}
+			</script>
 		</div>
 	</div>
 </body>

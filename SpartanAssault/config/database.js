@@ -1,5 +1,5 @@
 var orm = require('orm');
-var bcrypt   = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(app) {
 	var str = "mysql://danteryuu:parola@db4free.net:3306/spartanassault";
@@ -32,10 +32,12 @@ module.exports = function(app) {
 				level:Number,
 				xp:Number,
 				hp:Number,
+				max_hp:Number,
 				strength:Number,
 				agility:Number,
 				stamina:Number,
-				charisma:Number
+				charisma:Number,
+				gold:Number
 			},{
 				methods: {
 					
@@ -45,7 +47,7 @@ module.exports = function(app) {
 			models.inventory=db.define("inventory",{
 				userID: { type: 'number', key: true },
 				itemID: { type: 'number', key: true },
-				itemType:String,
+				itemType: { type: 'text', key: true },
 				inventory_number:Number,
 				inventory_x_position:Number,
 				inventory_y_position:Number
@@ -130,7 +132,59 @@ module.exports = function(app) {
 				}
 			});
 			
+			models.jobs=db.define("jobs",{
+				jobid: { type: 'number', key: true },
+				jobname:String,
+				minhours:Number,
+				maxhours:Number,
+				salary:Number,
+				reward:String
+			},{ 
+				methods: {
+				}
+			}
+			);
+			
+			models.work=db.define("work",{
+				userId: {type: 'number', key:true},
+				jobend: {type: 'date', time: true},
+				rewarditem:String,
+				totalreward:Number
+			},{
+				methods: {
+					
+				}
+			});
+			
+			models.warehouse=db.define("warehouse", {
+				warehouseID: { type: 'number', key: true},
+				itemID:Number,
+				type:String,
+				timestamp: {type: 'date', time: true}
+			}, {
+				methods : {
+					
+				}
+			});
+			
+			models.mob=db.define("mob",{
+				mobName :{type:'text',key:true},
+				mobHp:Number,
+				mobMinDmg:Number,
+				mobMaxDmg:Number,
+				mobDefense:Number,
+				strength:Number,
+				agility:Number,
+				stamina:Number,
+				charisma:Number,
+				rewardXp:Number,
+				rewardGold:Number
+			},{
+				
+			});
+			
 			db.sync();
 		}
 	}));
+	
 };

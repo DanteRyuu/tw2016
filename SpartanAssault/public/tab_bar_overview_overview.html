@@ -6,15 +6,58 @@
 <link rel="stylesheet" type="text/css" href="css/tab_bar_overview_overview_style.css" media="screen" />
 <title>Spartan Assault</title>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/javascript/jquery.js"></script>
 </head>
 <body>
 	<div id="container"></div>
 	<div id="magic_div">
 		<script type="text/javascript">
 
-			xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET","http://localhost:3000/main_info", true);
+			var strength = 0;
+			var agility = 0;
+			var stamina = 0;
+			var charisma = 0;
+			var min_attack = 0;
+			var max_attack = 0;
+			var defense = 0;
+			var weight = 0;
+			var level = 0;
+			
+			var xmlhttp_lvl = new XMLHttpRequest();
+			xmlhttp_lvl.open("GET","http://spartan-assault-danteryuu.c9users.io/level", true);
+			xmlhttp_lvl.onreadystatechange=function(){
+				if (xmlhttp_lvl.readyState==4 && xmlhttp_lvl.status==200) {
+					level = xmlhttp_lvl.responseText;
+				}
+			};
+			xmlhttp_lvl.send();
+			
+			function saveState(bg, nodeName) {
+				bg = bg.replace("url(\"http://spartan-assault-danteryuu.c9users.io/assets/items/" + nodeName + "/", "").replace(".png\")", "");
+		        var xmlhttp = new XMLHttpRequest();
+		        xmlhttp.open("POST","http://spartan-assault-danteryuu.c9users.io/equip_item", true);
+		        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xmlhttp.onreadystatechange=function(){
+					if (xmlhttp.readyState==4 && xmlhttp.status==200){
+						var json_text = xmlhttp.responseText;
+					
+						var json_obj = JSON.parse(json_text);
+						
+						if(nodeName == "weapon") {
+							$(function() {
+								$('#min_dmg').text(json_obj.min_attack);
+							});
+							$(function() {
+								$('#max_dmg').text(json_obj.max_attack);
+							});
+						}
+					}
+				}
+				xmlhttp.send("new_item="+ bg + "&type=" + nodeName);
+			}
+
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET","http://spartan-assault-danteryuu.c9users.io/main_info", true);
 			xmlhttp.onreadystatechange=function(){
 				if (xmlhttp.readyState==4 && xmlhttp.status==200){
 					var json_text = xmlhttp.responseText;
@@ -32,27 +75,42 @@
 			}
 			xmlhttp.send();
 			
-			xmlhttp_stats = new XMLHttpRequest();
-			xmlhttp_stats.open("GET","http://localhost:3000/stats", true);
+			var xmlhttp_stats = new XMLHttpRequest();
+			xmlhttp_stats.open("GET","http://spartan-assault-danteryuu.c9users.io/stats", true);
 			xmlhttp_stats.onreadystatechange=function(){
 				if (xmlhttp_stats.readyState==4 && xmlhttp_stats.status==200){
 					var json_text = xmlhttp_stats.responseText;
 					
 					var json_obj = JSON.parse(json_text);
-					var snippet_stats = "<div id=\"stats\"> <p> Strength: " + json_obj.strength
-										  + "<\/p> <p> Agility: " + json_obj.agility
-										  + "<\/p> <p> Stamina: " + json_obj.stamina
-										  + "<\/p> <p> Charisma: " + json_obj.charisma
-										  + "<\/div>";
+					strength += json_obj.strength;
+					agility += json_obj.agility;
+					stamina += json_obj.stamina;
+					charisma += json_obj.charisma;
+					
 					$(function() {
-						$('#stats').replaceWith($(snippet_stats));
+						$('#strength').text(parseInt($('#strength').text()) + parseInt(json_obj.strength));
+					});
+					$(function() {
+						$('#agility').text(parseInt($('#agility').text()) + parseInt(json_obj.agility));
+					});
+					$(function() {
+						$('#stamina').text(parseInt($('#stamina').text()) + parseInt(json_obj.stamina));
+					});
+					$(function() {
+						$('#charisma').text(parseInt($('#charisma').text()) + parseInt(json_obj.charisma));
+					});
+					$(function() {
+						$('#hp').text(json_obj.hp + "/" + json_obj.max_hp);
+					});
+					$(function() {
+						$('#xp').text(json_obj.xp + "/" + (Math.pow(2, level-1)*100));
 					});
 				}
 			}
 			xmlhttp_stats.send();
 			
-			xmlhttp_items = new XMLHttpRequest();
-			xmlhttp_items.open("GET","http://localhost:3000/equipped_items", true);
+			var xmlhttp_items = new XMLHttpRequest();
+			xmlhttp_items.open("GET","http://spartan-assault-danteryuu.c9users.io/equipped_items", true);
 			xmlhttp_items.onreadystatechange=function(){
 				if (xmlhttp_items.readyState==4 && xmlhttp_items.status==200){
 					var json_text = xmlhttp_items.responseText;
@@ -93,14 +151,39 @@
 					$(function() {
 						$('.weaponTarget').replaceWith($(snippet_items));
 					});
+					
+					$(function() {
+						$('#strength').text(parseInt($('#strength').text()) + parseInt(json_obj.strength));
+					});
+					$(function() {
+						$('#agility').text(parseInt($('#agility').text()) + parseInt(json_obj.agility));
+					});
+					$(function() {
+						$('#stamina').text(parseInt($('#stamina').text()) + parseInt(json_obj.stamina));
+					});
+					$(function() {
+						$('#charisma').text(parseInt($('#charisma').text()) + parseInt(json_obj.charisma));
+					});
+					$(function() {
+						$('#min_dmg').text(parseInt($('#min_dmg').text()) + parseInt(json_obj.min_attack));
+					});
+					$(function() {
+						$('#max_dmg').text(parseInt($('#max_dmg').text()) + parseInt(json_obj.max_attack));
+					});
+					$(function() {
+						$('#defense').text(parseInt($('#defense').text()) + parseInt(json_obj.defense));
+					});
+					$(function() {
+						$('#weight').text(parseInt($('#weight').text()) + parseInt(json_obj.weight));
+					});
 				}
 			}
 			xmlhttp_items.send();
 			
-			xmlhttp_inv = new XMLHttpRequest();
-			xmlhttp_inv.open("GET","http://localhost:3000/inventory", true);
+			var xmlhttp_inv = new XMLHttpRequest();
+			xmlhttp_inv.open("GET","http://spartan-assault-danteryuu.c9users.io/inventory", true);
 			xmlhttp_inv.onreadystatechange=function(){
-				if (xmlhttp_inv.readyState==4 && xmlhttp_inv.status==200){
+				if (xmlhttp_inv.readyState==4 && xmlhttp_inv.status==200) {
 					var json_text = xmlhttp_inv.responseText;
 					
 					var json_obj = JSON.parse(json_text);
@@ -108,17 +191,17 @@
 					if(json_obj.inventories.length === 0) {
 						json_inv = 0;
 					}
-					var inv_description = "<div id=\"inventory_description\" <p> Total inventory value: " + json_inv +
+					var inv_description = "<div id=\"inventory_description\"> <p> Total inventory value: " + json_inv +
 																	  "<img src=\"assets/items/others/coins3.png\" height=\"15\" width=\"15\"> <\/p>" +
-																	  "<p> The cheapest item costs" + parseInt(json_obj.min_val) +
+																	  "<p> The cheapest item costs " + parseInt(json_obj.min_val) +
 																	  "<img src=\"assets/items/others/coins3.png\" height=\"15\" width=\"15\"> <\/p>" +
-																	  "<p> The most expensive item costs" + parseInt(json_obj.max_val) +
+																	  "<p> The most expensive item costs " + parseInt(json_obj.max_val) +
 																	  "<img src=\"assets/items/others/coins3.png\" height=\"15\" width=\"15\"> <\/p>" +
 																	  "<p> No. of items: " + json_obj.inventories.length +
 																	  "<\/p> <\/div>";
 					
-					var inv1="<div id=\"inventory1\" style=\"display: block;\">", inv2="<div id=\"inventory2\" style=\"display: none;\">", inv3="<div id=\"inventory3\" style=\"display: none; top:0px; left:0px;\">",
-						inv4="<div id=\"inventory4\" style=\"display: none; top:0px; left:0px;\">", inv5="<div id=\"inventory5\" style=\"display: none; top:0px; left:0px;\">";
+					var inv1="<div id=\"inventory1\" style=\"display: block;\">", inv2="<div id=\"inventory2\" style=\"display: none;\">", inv3="<div id=\"inventory3\" style=\"display: none;\">",
+						inv4="<div id=\"inventory4\" style=\"display: none; \">", inv5="<div id=\"inventory5\" style=\"display: none;\">";
 				
 					for(var index = 0; index <=json_obj.inventories.length; index++) {
 						if(index < parseInt(json_obj.inventories.length)) {
@@ -215,20 +298,24 @@
 								var nodeNameIntermediar = targetName.replace('Target','');
 								
 								if(targetName===(nodeName+'Target')){												
-									var bg = $('#'+$(dragSrcEl).attr('id')).css('background');
-									var bg2 = $('.'+targetName).css('background');
+									var bg = $('#'+$(dragSrcEl).attr('id')).css('background-image');
+									var bg2 = $('.'+targetName).css('background-image');
 
-									$('#'+$(dragSrcEl).attr('id')).css("background", bg2);
-									$('.'+targetName).css("background", bg);
+									$('#'+$(dragSrcEl).attr('id')).css("background-image", bg2);
+									$('.'+targetName).css("background-image", bg);
+									
+									saveState(bg, nodeName);
 								}
 								else{
 										if(nodeName==nodeNameIntermediar){
 											//replace with
-											var bg = $('#'+$(dragSrcEl).attr('id')).css('background');
-											var bg2 = $('#'+$(this).attr('id')).css('background');
+											var bg = $('#'+$(dragSrcEl).attr('id')).css('background-image');
+											var bg2 = $('#'+$(this).attr('id')).css('background-image');
 
-											$('#'+$(dragSrcEl).attr('id')).css("background", bg2);
-											$('#'+$(this).attr('id')).css("background", bg);  
+											$('#'+$(dragSrcEl).attr('id')).css("background-image", bg2);
+											$('#'+$(this).attr('id')).css("background-image", bg);  
+											
+											saveState(bg, nodeName);
 										}
 										else{
 											var classNameNode = $(dragSrcEl).attr('class');
@@ -243,12 +330,13 @@
 											$(this).attr('class', classNameNode);
 											$(this).attr('id', idNameNode);
 											
-											var bg = $('#'+$(dragSrcEl).attr('id')).css('background');
-											var bg2 = $('#'+$(this).attr('id')).css('background');
+											var bg = $('#'+$(dragSrcEl).attr('id')).css('background-image');
+											var bg2 = $('#'+$(this).attr('id')).css('background-image');
 
-											$('#'+$(dragSrcEl).attr('id')).css("background", bg2);
-											$('#'+$(this).attr('id')).css("background", bg);  
+											$('#'+$(dragSrcEl).attr('id')).css("background-image", bg2);
+											$('#'+$(this).attr('id')).css("background-image", bg);  
 											
+											saveState(bg, nodeName);
 										}
 									}
 								
@@ -261,6 +349,45 @@
 							}
 
 							function loadStuff() {
+								
+								$(".food, .potion").click(function(event) {
+									
+									$(".selected").removeClass("selected");
+									$("#" + event.target.id).addClass("selected");
+								});
+								
+								$("#consume").click(function(event) {
+									var consumable_id = $(".selected").get(0).id;
+									var inv = 0;
+									if ($("#inventory1").is(":visible")) {
+										inv = 1;
+									}
+									if ($("#inventory2").is(":visible")) {
+										inv = 2;
+									}
+									if ($("#inventory3").is(":visible")) {
+										inv = 3;
+									}
+									if ($("#inventory4").is(":visible")) {
+										inv = 4;
+									}
+									if ($("#inventory5").is(":visible")) {
+										inv = 5;
+									}
+									
+									$("#" + consumable_id).css("background-image", "");
+									$("#" + consumable_id).removeClass("selected");
+									
+									var xmlhttp = new XMLHttpRequest();
+									xmlhttp.open("POST","http://spartan-assault-danteryuu.c9users.io/consume", true);
+									xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+									xmlhttp.onreadystatechange=function(){
+										if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+											
+										}
+									};
+									xmlhttp.send("inv="+ inv + "&pos=" + consumable_id.substring(4));
+								});
 							
 								$(".helmet, .weapon, .chest, .shield, .gloves, .boots").mousedown(function(){
 							
@@ -268,18 +395,18 @@
 
 								[].forEach.call(cols, function(col) {
 								  col.removeEventListener('dragstart', handleDragStart, false);
-								  col.removeEventListener('dragenter', handleDragEnter, false)
+								  col.removeEventListener('dragenter', handleDragEnter, false);
 								  col.removeEventListener('dragover', handleDragOver, false);
 								  col.removeEventListener('dragleave', handleDragLeave, false);
 								  col.removeEventListener('drop', handleDrop, false);
 								  col.removeEventListener('dragend', handleDragEnd, false);
 								});
 								
-								var cols = document.querySelectorAll('.helmet, .weapon, .chest, .shield, .gloves, .boots');
+								cols = document.querySelectorAll('.helmet, .weapon, .chest, .shield, .gloves, .boots');
 								
 								[].forEach.call(cols, function(col) {
 								  col.addEventListener('dragstart', handleDragStart, false);
-								  col.addEventListener('dragenter', handleDragEnter, false)
+								  col.addEventListener('dragenter', handleDragEnter, false);
 								  col.addEventListener('dragover', handleDragOver, false);
 								  col.addEventListener('dragleave', handleDragLeave, false);
 								  col.addEventListener('drop', handleDrop, false);
@@ -290,7 +417,7 @@
 								
 								[].forEach.call(cols, function(col) {
 								  col.addEventListener('dragstart', handleDragStart, false);
-								  col.addEventListener('dragenter', handleDragEnter, false)
+								  col.addEventListener('dragenter', handleDragEnter, false);
 								  col.addEventListener('dragover', handleDragOver, false);
 								  col.addEventListener('dragleave', handleDragLeave, false);
 								  col.addEventListener('drop', handleDrop, false);
@@ -303,7 +430,7 @@
 									
 									[].forEach.call(cols, function(col) {
 									  col.removeEventListener('dragstart', handleDragStart, false);
-									  col.removeEventListener('dragenter', handleDragEnter, false)
+									  col.removeEventListener('dragenter', handleDragEnter, false);
 									  col.removeEventListener('dragover', handleDragOver, false);
 									  col.removeEventListener('dragleave', handleDragLeave, false);
 									  col.removeEventListener('drop', handleDrop, false);
@@ -323,7 +450,56 @@
 
 		<div id="title"></div>
 		<div id="profile_picture"></div>
-		<div id="stats"></div>
+		<div id="stats">
+			<div id="main_stats">
+				<p> Strength:
+					<span id="strength"> 0
+					</span>
+				</p>
+				<p> Agility:
+					<span id="agility"> 0
+					</span>
+				</p>
+				<p> Stamina:
+					<span id="stamina"> 0
+					</span>
+				</p>
+				<p> Charisma:
+					<span id="charisma"> 0
+					</span>
+				</p>
+			</div>
+			
+			<div id="more_stats">
+				<p> Min. attack:
+					<span id="min_dmg"> 0
+					</span>
+				</p>
+				<p> Max. attack:
+					<span id="max_dmg"> 0
+					</span>
+				</p>
+				<p> Defense:
+					<span id="defense"> 0
+					</span>
+				</p>
+				<p> Weight:
+					<span id="weight"> 0
+					</span>
+				</p>
+			</div>
+			
+			<div id="even_more_stats">
+				<p> HP:
+					<span id="hp"> 0/0
+					</span>
+				</p>
+				<p> XP:
+					<span id="xp"> 0/0
+					</span>
+				</p>
+			</div>
+		</div>
 		<div id="equipment"></div>
 		
 		<div id="inventory1"></div>
@@ -340,6 +516,8 @@
 		<div id="inventory_menu_bar_button4" class="alignCenter">IV</div>
 		<div id="inventory_menu_bar_button5" class="alignCenter">V</div>
 		
+		<button id="consume">Consume</button>
+		
 		<div class="helmetTarget" draggable="true"></div>
 		<div class="weaponTarget" draggable="true"></div>
 		<div class="chestTarget" draggable="true"></div>
@@ -349,7 +527,7 @@
 		
 	</div>
 	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="/javascript/jquery.js"></script>
 	
 	<script type="text/javascript" language="javascript">
 

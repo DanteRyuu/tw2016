@@ -16,13 +16,17 @@
 	.drop-target {
 	}
 	
+	p {
+		margin-left: 20px;
+		line-height: 7px;
+	}
+	
 	#container{
 		position: absolute;
 		top:0;
 		left:0;
 		width:1053px;
 		height:458px;
-		background-color:rgba(224,184,52, 0.1);
 	}
 	
 	#title {
@@ -54,7 +58,6 @@
 		left:446.5px;
 		width:160px;
 		height:200px;
-		background-color:white;
 		background-image:url(../assets/gladiator_male.png);
 		background-repeat:no-repeat;
 		background-position:center;
@@ -71,7 +74,25 @@
 		left:406.5px;
 		width:240px;
 		height:150px;
-		background-color:rgb(186,170,126);
+	}
+	
+	#main_stats {
+		float: left;
+	}
+	
+	#more_stats {
+		position: absolute;
+		left: 110px;
+		width: 120px;
+		height: 150px;
+		float: left;
+	}
+	
+	#even_more_stats {
+		position: relative;
+		float: left;
+		left: -40px;
+		top: 88px;
 	}
 	
 	#equipment {
@@ -277,7 +298,6 @@
 		left:796px;
 		width:72px;
 		height:72px;
-		background-color:blue;
 	}
 	
 	.helmet {
@@ -301,4 +321,16 @@
 		left: 0px;
 		width: 60px;
 		height: 60px;
+	}
+	
+	.selected {
+		border-style: solid;
+		border-color: yellow;	
+	}
+	
+	#consume {
+		position: relative;
+		left: 65px;
+		top: 400px;
+		
 	}

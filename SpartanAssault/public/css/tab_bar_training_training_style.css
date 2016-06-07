@@ -15,7 +15,7 @@
 	
 	#training {
 		background-image: url(../assets/training.jpg);
-		background-repeat:no repeat;
+		background-repeat:no-repeat;
 		background-size:contain;
 		background-size:cover;
 		position:absolute;
@@ -25,28 +25,16 @@
 		height:258px;
 	}
 	
-	#tablepicture{
-		background-image: url(../assets/trainingtable.png);
-		background-repeat:no repeat;
-		background-size:contain;
-		background-size:cover;
+	#tablediv{
 		position:absolute;
-		top:60px;
-		left:460px;
-		width:400px;
-		height:350px;
+		top:140px;
+		left:530px;
 	}
 	
 	#prop{
 		position:absolute;
 		top:80px;
 		left:520px;
-	}
-	
-	#tablediv{
-		position:absolute;
-		top:65px;
-		left:90px;
 	}
 	
 	tr,th, td {
@@ -60,3 +48,13 @@
 		left:400px;
 		font-size:26px;
 	}
+	
+	#plus{
+		background-image: url(../assets/plusSign.png);
+		background-repeat:no-repeat;
+		background-size:contain;
+		background-size:cover;
+		width:13px;
+		height:13px;
+	}
+	

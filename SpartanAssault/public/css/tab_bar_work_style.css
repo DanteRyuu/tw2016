@@ -15,7 +15,7 @@
 	
 	#work {
 		background-image: url(../assets/city2.jpg);
-		background-repeat:no repeat;
+		background-repeat:no-repeat;
 		background-size:contain;
 		background-size:cover;
 		position:absolute;
@@ -49,8 +49,21 @@
 		position:absolute;
 		top:130px;
 		left:620px;
+		width: 400px;
+		height: 200px;
 	}
 	
 	.changecolor {
 		background-color:rgb(204,164,42);
+	}
+	
+	#button{
+		position:absolute;
+		top:300px;
+		left:170px;
+	}
+	#range{
+		position:absolute;
+		top:300px;
+		left:142px;
 	}

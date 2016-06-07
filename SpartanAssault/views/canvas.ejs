@@ -12,12 +12,9 @@
 	<div id="container" style="top:0px; left:0px; width:100%; height:100%;">
 		<div id="west_banner">
 			<div id="overview" class="buttons">Overview</div>
-			<div id="objectives" class="buttons">Objectives</div>
-			<div id="guild" class="buttons">Guild</div>
 			<div id="work" class="buttons">Work</div>
 			<div id="colosseum" class="buttons">Colosseum</div>
 			<div id="training" class="buttons">Training</div>
-			<div id="top" class="buttons">Top</div>
 			
 			<div id="west_banner_south">
 				<div id="left_button" class="buttons"></div>
@@ -25,24 +22,25 @@
 				<div id="weaponsmith" class="buttons">Weaponsmith</div>
 				<div id="armoursmith" class="buttons">Armoursmith</div>
 				<div id="goodsMerchant" class="buttons">Goods Merchant</div>
-				<div id="crafting" class="buttons">Crafting</div>
-				<div id="upgrade" class="buttons">Upgrade</div>
-				<div id="market" class="buttons">Market</div>
 				
 				<div id="canyon" class="buttons">Steep Canyon</div>
 				<div id="forest" class="buttons">Dark Forest</div>
-				<div id="temple" class="buttons">Temple Ruins</div>
 			</div>
+			
+			<div id="gold"></div>
+			<div id="amount"></div>
+			<div id="level"></div>
+			<div id="my_lvl"></div>
 		</div>
 
 		<form action="/logout" method="post">
-			<input type="submit" value="logout_submit" style="position:absolute; left:1274px; top:33px; width:40px; height:15px; opacity:0;">
+			<input id = "logoutButton" type="submit" value="Logout">
 		</form>
 		<div id="canvas"></div>
 	</div>
 	
 	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="/javascript/jquery.js"></script>
 
 	<script type="text/javascript" language="javascript">
 
@@ -52,20 +50,16 @@
 			$("#forest").hide();
 			$("#temple").hide();
 		
-			$("#overview, #objectives, #guild, #work, #colosseum, #training, #top, #weaponsmith, #armoursmith, #goodsMerchant, #crafting, #upgrade, #market, #canyon, #forest, #temple").click(function(event){
+			$("#overview, #work, #colosseum, #training, #weaponsmith, #armoursmith, #goodsMerchant, #canyon, #forest").click(function(event){
 				$("#canvas").html("<iframe src='"+$(this).attr('id')+".html' style=\"width:1073px; height:528px;\" frameborder=\"0\"></iframe>");
 				var name = $(this).attr('id');
-				if(name=="overview" || name=="objectives" || name=="guild" || name=="work" || name=="colosseum" || name=="training" || name=="top")
+				if(name=="overview" || name=="work" || name=="colosseum" || name=="training")
 					{
 					$('#weaponsmith').removeClass('butonActiv');
 					$('#armoursmith').removeClass('butonActiv');
 					$('#goodsMerchant').removeClass('butonActiv');
-					$('#crafting').removeClass('butonActiv');
-					$('#upgrade').removeClass('butonActiv');
-					$('#market').removeClass('butonActiv');
 					$("#canyon").removeClass('butonActiv');
 					$("#forest").removeClass('butonActiv');
-					$("#temple").removeClass('butonActiv');
 					}
 				$(this).siblings().removeClass('butonActiv');
 				$(this).parent().siblings().removeClass('butonActiv');
@@ -80,13 +74,9 @@
 				$("#weaponsmith").show();
 				$("#armoursmith").show();
 				$("#goodsMerchant").show();
-				$("#crafting").show();
-				$("#upgrade").show();
-				$("#market").show();
 				
 				$("#canyon").hide();
 				$("#forest").hide();
-				$("#temple").hide();
 				
 				$("#west_banner_south").addClass('addBackgroundLeft');
 			});
@@ -105,10 +95,35 @@
 				
 				$("#canyon").show();
 				$("#forest").show();
-				$("#temple").show();
 				
 				$('#west_banner_south').addClass('addBackgroundRight');
 			});
+			
+			var xmlhttp_gold = new XMLHttpRequest();
+			xmlhttp_gold.open("GET","http://spartan-assault-danteryuu.c9users.io/gold", true);
+			xmlhttp_gold.onreadystatechange=function(){
+				if (xmlhttp_gold.readyState==4 && xmlhttp_gold.status==200) {
+					var gold = xmlhttp_gold.responseText;
+					
+					$(function() {
+						$('#amount').replaceWith($("<div id=\"amount\">"+gold+"<\/div>"));
+					});
+				}
+			};
+			xmlhttp_gold.send();
+			
+			var xmlhttp_lvl = new XMLHttpRequest();
+			xmlhttp_lvl.open("GET","http://spartan-assault-danteryuu.c9users.io/level", true);
+			xmlhttp_lvl.onreadystatechange=function(){
+				if (xmlhttp_lvl.readyState==4 && xmlhttp_lvl.status==200) {
+					var lvl = xmlhttp_lvl.responseText;
+					
+					$(function() {
+						$('#my_lvl').replaceWith($("<div id=\"my_lvl\">"+lvl+"<\/div>"));
+					});
+				}
+			};
+			xmlhttp_lvl.send();
 			
          });
 		 

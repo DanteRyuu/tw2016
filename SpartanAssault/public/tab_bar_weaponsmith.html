@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="css/tab_bar_weaponsmith_style.css" media="screen" />
 <title>Spartan Assault</title>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/javascript/jquery.js"></script>
 </head>
 <body>
 	<div id="container">
@@ -16,8 +16,8 @@
 	</div>
 	<div id="magic_div">
 		<script type="text/javascript">
-			xmlhttp_items = new XMLHttpRequest();
-			xmlhttp_items.open("GET","http://localhost:3000/equipped_items", true);
+			var xmlhttp_items = new XMLHttpRequest();
+			xmlhttp_items.open("GET","http://spartan-assault-danteryuu.c9users.io/equipped_items", true);
 			xmlhttp_items.onreadystatechange=function(){
 				if (xmlhttp_items.readyState==4 && xmlhttp_items.status==200){
 					var json_text = xmlhttp_items.responseText;
@@ -62,8 +62,8 @@
 			}
 			xmlhttp_items.send();
 			
-			xmlhttp_inv = new XMLHttpRequest();
-			xmlhttp_inv.open("GET","http://localhost:3000/inventory", true);
+			var xmlhttp_inv = new XMLHttpRequest();
+			xmlhttp_inv.open("GET","http://spartan-assault-danteryuu.c9users.io/inventory", true);
 			xmlhttp_inv.onreadystatechange=function(){
 				if (xmlhttp_inv.readyState==4 && xmlhttp_inv.status==200){
 					var json_text = xmlhttp_inv.responseText;
@@ -274,7 +274,7 @@
 			xmlhttp_inv.send();
 			
 			var xmlhttp_wpnsmith = new XMLHttpRequest();
-			xmlhttp_wpnsmith.open("POST","http://localhost:3000/wpnsmith", true);
+			xmlhttp_wpnsmith.open("POST","http://spartan-assault-danteryuu.c9users.io/wpnsmith", true);
 			xmlhttp_wpnsmith.onreadystatechange=function(){
 				if (xmlhttp_wpnsmith.readyState==4 && xmlhttp_wpnsmith.status==200){
 					var response=xmlhttp_wpnsmith.responseText;
@@ -313,8 +313,6 @@
 		<div class="bootsTarget" draggable="true"></div>
 		
 	</div>
-	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	
 	<script type="text/javascript" language="javascript">
 

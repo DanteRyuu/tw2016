@@ -17,6 +17,8 @@
 		background-repeat:no-repeat;
 		background-size:contain;
 		position:absolute;
+		text-align: center;
+		font-weight: bold;
 		--background-color:red;
 		background-size:cover;
 		top:20px;
@@ -30,6 +32,8 @@
 		background-repeat:no-repeat;
 		background-size:contain;
 		position:absolute;
+		text-align: center;
+		font-weight: bold;
 		--background-color:green;
 		background-size:cover;
 		top:100px;
@@ -43,6 +47,8 @@
 		background-repeat:no-repeat;
 		background-size:contain;
 		position:absolute;
+		text-align: center;
+		font-weight: bold;
 		--background-color:green;
 		background-size:cover;
 		top:100px;

@@ -6,20 +6,17 @@
 <link rel="stylesheet" type="text/css" href="css/overview_style.css" media="screen" />
 <title>Spartan Assault</title>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/javascript/jquery.js"></script>
 </head>
 <body>
 	<div id="container">
 		<div id="tab_bar">
 			<div id="tab_bar_overview_overview" onClick="javascript:injectOverviewHTML();">Overview</div>
 			<div id="tab_bar_overview_statistics" onClick="javascript:injectOverviewHTML();">Statistics</div>
-			<div id="tab_bar_overview_victories">Victories</div>
 		</div>
 		<div id="canvas">
 		</div>
 	</div>
-
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	
 	<script type="text/javascript" language="javascript">
 
@@ -31,19 +28,11 @@
 			$("#tab_bar_overview_overview").click(function(event){
 				$("#tab_bar_overview_overview").css({"z-index":"3"});
 				$("#tab_bar_overview_statistics").css({"z-index":"2"});
-				$("#tab_bar_overview_victories").css({"z-index":"1"});
 			});
 			
 			$("#tab_bar_overview_statistics").click(function(event){
 				$("#tab_bar_overview_overview").css({"z-index":"1"});
 				$("#tab_bar_overview_statistics").css({"z-index":"3"});
-				$("#tab_bar_overview_victories").css({"z-index":"1"});
-			});
-			
-			$("#tab_bar_overview_victories").click(function(event){
-				$("#tab_bar_overview_overview").css({"z-index":"1"});
-				$("#tab_bar_overview_statistics").css({"z-index":"2"});
-				$("#tab_bar_overview_victories").css({"z-index":"3"});
 			});
 			
 			//var injectState = "ready";

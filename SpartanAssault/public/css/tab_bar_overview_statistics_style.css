@@ -17,30 +17,17 @@
 		border: 1px solid black;
 		border-collapse: collapse;	
 	}
-	
-	#userimage{
-		position: absolute;
-		top:45px;
-		left:25px;
-		width:140px;
-		height:180px;
-		background-color:white;
-		background-image:url(../assets/gladiator_profile_picture.png);
-		background-repeat:no-repeat;
-		background-position:center;
-		background-size:cover;
-	}
 
 	#username{
 		position: absolute;
-		top:12px;
+		top:22px;
 		left:60px;
 		font-size:20px;
 	}
 	
 	#tablediv{
 		position: absolute;
-		top:240px;
+		top:150px;
 		left:60px;
 		width:600px;
 		height:100px;
